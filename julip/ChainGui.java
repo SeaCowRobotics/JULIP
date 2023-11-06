@@ -47,7 +47,8 @@ public class ChainGui {
                 "JoinRelicJewel       ctr>nil",
                 "LinkRelicPictograph  pts>nil",
                 "LinkRoverMineral     ctr>nil",
-                "LinkSkyStoneDetect   png>nil"
+                "LinkSkyStoneDetect   png>nil",
+                "LinkCenterStageProp  ctr>nil"
             };
     Map<String, String> extensions = new HashMap<String, String>() {{
         put("img", "png");
@@ -150,17 +151,43 @@ public class ChainGui {
         frame = new JFrame(getFrameName());
         imgLabel = new JLabel();        
         imgSP = new JScrollPane(imgLabel);
-        imgSP.setPreferredSize(new Dimension(400,400));                
+        imgSP.setPreferredSize(new Dimension(400,400));    
+        // ChainGui main panel = myPanel            
         myPanel = new JPanel();
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.PAGE_AXIS));
+
+        // frame will be built as follows:
+        //   myPanel
+        //   imageScrollPane
+        // myPanel will be built as follows:
+        //   refControlPanel
+        //   imageScrollPane
+        //   imageControlPanel
+        //   guiScrollPane
+        //   guiComboBox
+        //   guiControlPanel
+        //   chainControlPanel
 
         //------------------------------------- refControlPanel -------------------------
         //        
         // JPanel with Flow Layout
+        //   JButton - README access
         //   JButton - update chain reference
         //   JTextField - text of chain reference
         JPanel refControlPanel = new JPanel();
         JButton refChainB = new JButton("Update Chain Reference");
+        JButton readMeB = new JButton("Read Me");
+        readMeB.setPreferredSize(new Dimension(100,20));
+        readMeB.setOpaque(true);
+        readMeB.setBorder(null);
+        readMeB.setBackground(Color.YELLOW);
+        readMeB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReadMeFrame readMeFrame = new ReadMeFrame();
+            }
+        });
+        readMeB.repaint();
         refChainTF = new JTextField();
         refChainTF.setPreferredSize(new Dimension(120, 25));
         refChainTF.setText(myChainMap.get("CHAIN_REFERENCE"));
@@ -171,10 +198,13 @@ public class ChainGui {
                 updateRef();
             }
         });
+        // build reference control Panel
+        refControlPanel.add(readMeB);
         refControlPanel.add(refChainB);
         refControlPanel.add(refChainTF);
+
+        // build main Panel
         myPanel.add(refControlPanel);
-        
         myPanel.add(buildImageScrollPane());
         myPanel.add(buildImageControlPanel());
         
@@ -670,7 +700,9 @@ public class ChainGui {
             //
             if (arg.equals("--help") || arg.equals("-help")) {
                 System.out.println("Usage:");
-                System.out.println(className + "    [<ChainFileName>] | [[-]-help] |");
+                System.out.println(className);
+                System.out.println("    [<ChainFileName>]   // use full filename including file extension");
+                System.out.println("    [[-]-help]          // use either one or two dashes in front of 'help'");
                 System.out.println("    [-r <reference>]");
                 System.out.println("    [-f <chainSettingFileName]");
                 System.out.println("    [-i <ImageInputFileName>]");
@@ -1245,6 +1277,9 @@ public class ChainGui {
                 }
                 else if (guiName.equals("LinkSkyStoneDetect")) {
                     gui = new LinkSkyStoneDetect(args);
+                }
+                else if (guiName.equals("LinkCenterStageProp")) {
+                    gui = new LinkCenterStageProp(args);
                 }
                 else {
                     System.out.println("BuidGui: Failed to match to a Link Gui name:"+guiName);
