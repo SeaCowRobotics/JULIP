@@ -55,6 +55,18 @@ public class LinkCenterStageProp extends LinkClass {
     private int centerPropMin  = 3000;
     private int centerPropMax  = 9000;
     
+    private int textWidth;
+
+    private JTextField areaLeftSpikeMinTF;
+    private JTextField areaLeftSpikeMaxTF;
+    private JTextField areaLeftPropMinTF;
+    private JTextField areaLeftPropMaxTF;
+    private JTextField areaCenterSpikeMinTF;
+    private JTextField areaCenterSpikeMaxTF;
+    private JTextField areaCenterPropMinTF;
+    private JTextField areaCenterPropMaxTF;
+
+
     private JLabel labelContours;
     
     private JLabel imgLabel;
@@ -77,6 +89,7 @@ public class LinkCenterStageProp extends LinkClass {
         anchor = new Point(-1,-1);
         circleCenters = new ArrayList<>();
         contourAreas = new ArrayList<>();
+        textWidth = 15;
         codeFilename = "code_LinkCenterStageProp.java";
         //
         //---------------------------------------------
@@ -125,7 +138,54 @@ public class LinkCenterStageProp extends LinkClass {
 
         JPanel sliderPanel = new JPanel();
         sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.PAGE_AXIS));
-        
+
+        // JPanel for fixed Area filters
+        //    Left Spike | Left Prop | Center Spike | Center Prop
+        //        Label | TextField for min Area | max Area | Label
+        JPanel areaLeftSpikePanel = new JPanel();
+        JLabel alsiL = new JLabel("Area left spike Min");
+        areaLeftSpikeMinTF = new JTextField(myLinkMap.get("AREA_LEFT_SPIKE_MIN"),textWidth);
+        areaLeftSpikeMaxTF = new JTextField(myLinkMap.get("AREA_LEFT_SPIKE_MAX"),textWidth);
+        JLabel alsaL = new JLabel("Area left spike Max");
+        areaLeftSpikePanel.add(alsiL);
+        areaLeftSpikePanel.add(areaLeftSpikeMinTF);
+        areaLeftSpikePanel.add(areaLeftSpikeMaxTF);
+        areaLeftSpikePanel.add(alsaL);
+        sliderPanel.add(areaLeftSpikePanel);
+
+        JPanel areaLeftPropPanel = new JPanel();
+        JLabel alpiL = new JLabel("Area left prop Min");
+        areaLeftPropMinTF = new JTextField(myLinkMap.get("AREA_LEFT_PROP_MIN"),textWidth);
+        areaLeftPropMaxTF = new JTextField(myLinkMap.get("AREA_LEFT_PROP_MAX"),textWidth);
+        JLabel alpaL = new JLabel("Area left prop Max");
+        areaLeftPropPanel.add(alpiL);
+        areaLeftPropPanel.add(areaLeftPropMinTF);
+        areaLeftPropPanel.add(areaLeftPropMaxTF);
+        areaLeftPropPanel.add(alpaL);
+        sliderPanel.add(areaLeftPropPanel);
+
+        JPanel areaCenterSpikePanel = new JPanel();
+        JLabel acsiL = new JLabel("Area center spike Min");
+        areaCenterSpikeMinTF = new JTextField(myLinkMap.get("AREA_CENTER_SPIKE_MIN"),textWidth);
+        areaCenterSpikeMaxTF = new JTextField(myLinkMap.get("AREA_CENTER_SPIKE_MAX"),textWidth);
+        JLabel acsaL = new JLabel("Area center spike Max");
+        areaCenterSpikePanel.add(acsiL);
+        areaCenterSpikePanel.add(areaCenterSpikeMinTF);
+        areaCenterSpikePanel.add(areaCenterSpikeMaxTF);
+        areaCenterSpikePanel.add(acsaL);
+        sliderPanel.add(areaCenterSpikePanel);
+
+        JPanel areaCenterPropPanel = new JPanel();
+        JLabel acpiL = new JLabel("Area center prop Min");
+        areaCenterPropMinTF = new JTextField(myLinkMap.get("AREA_CENTER_PROP_MIN"),textWidth);
+        areaCenterPropMaxTF = new JTextField(myLinkMap.get("AREA_CENTER_PROP_MAX"),textWidth);
+        JLabel acpaL = new JLabel("Area center prop Max");
+        areaCenterPropPanel.add(acpiL);
+        areaCenterPropPanel.add(areaCenterPropMinTF);
+        areaCenterPropPanel.add(areaCenterPropMaxTF);
+        areaCenterPropPanel.add(acpaL);
+        sliderPanel.add(areaCenterPropPanel);
+
         labelImageIs    = new JLabel("Team Prop is ");
         sliderPanel.add(new JLabel(" "));
         sliderPanel.add(labelImageIs);
@@ -234,6 +294,14 @@ public class LinkCenterStageProp extends LinkClass {
                 put("IMAGE_IN", "none");
                 put("IMAGE_OUT", "null.png");
                 put("LINK_FILE", "nolinkcontours.txt");
+                put("AREA_LEFT_SPIKE_MIN", "-1");
+                put("AREA_LEFT_SPIKE_MAX", "-1");
+                put("AREA_LEFT_PROP_MIN", "-1");
+                put("AREA_LEFT_PROP_MAX", "-1");
+                put("AREA_CENTER_SPIKE_MIN", "-1");
+                put("AREA_CENTER_SPIKE_MAX", "-1");
+                put("AREA_CENTER_PROP_MIN", "-1");
+                put("AREA_CENTER_PROP_MAX", "-1");
              }};
         for (String key : defaultMap.keySet()) {
             if (!myLinkMap.containsKey(key)) {
@@ -247,6 +315,14 @@ public class LinkCenterStageProp extends LinkClass {
      */    
     @Override
     public void verifySettings() {
+        intCheck("AREA_LEFT_SPIKE_MIN", 0, 100000, 0);
+        intCheck("AREA_LEFT_SPIKE_MAX", 0, 100000, 10);
+        intCheck("AREA_LEFT_PROP_MIN", 0, 100000, 100);
+        intCheck("AREA_LEFT_PROP_MAX", 0, 100000, 10000);
+        intCheck("AREA_CENTER_SPIKE_MIN", 0, 100000, 0);
+        intCheck("AREA_CENTER_SPIKE_MAX", 0, 100000, 10);
+        intCheck("AREA_CENTER_PROP_MIN", 0, 100000, 100);
+        intCheck("AREA_CENTER_PROP_MAX", 0, 100000, 10000);
     }
     
     /**
@@ -263,6 +339,14 @@ public class LinkCenterStageProp extends LinkClass {
             writer.write("IMAGE_IN\t"    + textFieldImageIn.getText() + "\n");
             writer.write("IMAGE_OUT\t"   + textFieldImageOut.getText() + "\n");
             writer.write("LINK_FILE\t"   + linkfilename + "\n");
+            writer.write("AREA_LEFT_SPIKE_MIN\t" + areaLeftSpikeMinTF.getText() + "\n");
+            writer.write("AREA_LEFT_SPIKE_MAX\t" + areaLeftSpikeMaxTF.getText() + "\n");
+            writer.write("AREA_LEFT_PROP_MIN\t" + areaLeftPropMinTF.getText() + "\n");
+            writer.write("AREA_LEFT_PROP_MAX\t" + areaLeftPropMaxTF.getText() + "\n");
+            writer.write("AREA_CENTER_SPIKE_MIN\t" + areaCenterSpikeMinTF.getText() + "\n");
+            writer.write("AREA_CENTER_SPIKE_MAX\t" + areaCenterSpikeMaxTF.getText() + "\n");
+            writer.write("AREA_CENTER_PROP_MIN\t" + areaCenterPropMinTF.getText() + "\n");
+            writer.write("AREA_CENTER_PROP_MAX\t" + areaCenterPropMaxTF.getText() + "\n");
             writer.close();
         } catch (IOException e) {}
     }
@@ -281,7 +365,15 @@ public class LinkCenterStageProp extends LinkClass {
      */
     @Override
     public void mapToSettings() {
-    }
+        areaLeftSpikeMinTF.setText(myLinkMap.get("AREA_LEFT_SPIKE_MIN"));
+        areaLeftSpikeMaxTF.setText(myLinkMap.get("AREA_LEFT_SPIKE_MAX"));
+        areaLeftPropMinTF.setText(myLinkMap.get("AREA_LEFT_PROP_MIN"));
+        areaLeftPropMaxTF.setText(myLinkMap.get("AREA_LEFT_PROP_MAX"));
+        areaCenterSpikeMinTF.setText(myLinkMap.get("AREA_CENTER_SPIKE_MIN"));
+        areaCenterSpikeMaxTF.setText(myLinkMap.get("AREA_CENTER_SPIKE_MAX"));
+        areaCenterPropMinTF.setText(myLinkMap.get("AREA_CENTER_PROP_MIN"));
+        areaCenterPropMaxTF.setText(myLinkMap.get("AREA_CENTER_PROP_MAX"));
+   }
     
     /**
      * refreshSettings - Overrides method in LinkClass; copy and error check myLinkMap settings.
@@ -321,30 +413,39 @@ public class LinkCenterStageProp extends LinkClass {
         boolean centerIsSpike = false;
         int area;
 
+        int areaLeftSpikeMin = Integer.parseInt(areaLeftSpikeMinTF.getText()); 
+        int areaLeftSpikeMax = Integer.parseInt(areaLeftSpikeMaxTF.getText()); 
+        int areaLeftPropMin = Integer.parseInt(areaLeftPropMinTF.getText()); 
+        int areaLeftPropMax = Integer.parseInt(areaLeftPropMaxTF.getText()); 
+        int areaCenterSpikeMin = Integer.parseInt(areaCenterSpikeMinTF.getText()); 
+        int areaCenterSpikeMax = Integer.parseInt(areaCenterSpikeMaxTF.getText()); 
+        int areaCenterPropMin = Integer.parseInt(areaCenterPropMinTF.getText()); 
+        int areaCenterPropMax = Integer.parseInt(areaCenterPropMaxTF.getText()); 
+
         boolean error = false;
         // Error Check:
-        if (!error && (leftSpikeMax < leftSpikeMin)) {
-            labelImageIs.setText("ERROR: leftSpikeMax = "+leftSpikeMax+" and is less than leftSpikeMin = "+leftSpikeMin);
+        if (!error && (areaLeftSpikeMax < areaLeftSpikeMin)) {
+            labelImageIs.setText("ERROR: leftSpikeMax = "+areaLeftSpikeMax+" and is less than leftSpikeMin = "+areaLeftSpikeMin);
             error = true;
         }
-        if (!error && (leftPropMin < leftSpikeMax )) {
-            labelImageIs.setText("ERROR: leftPropMin = "+leftPropMin+" and is less than leftSpikeMax = "+leftSpikeMax);
+        if (!error && (areaLeftPropMin < areaLeftSpikeMax )) {
+            labelImageIs.setText("ERROR: leftPropMin = "+areaLeftPropMin+" and is less than leftSpikeMax = "+areaLeftSpikeMax);
             error = true;
         }
-        if (!error && (leftPropMax < leftPropMin )) {
-            labelImageIs.setText("ERROR: leftPropMax = "+leftPropMax+" and is less than leftPropMin = "+leftPropMin);
+        if (!error && (areaLeftPropMax < areaLeftPropMin )) {
+            labelImageIs.setText("ERROR: leftPropMax = "+areaLeftPropMax+" and is less than leftPropMin = "+areaLeftPropMin);
             error = true;
         }
-        if (!error && (centerSpikeMax < centerSpikeMin)) {
-            labelImageIs.setText("ERROR: centerSpikeMax = "+centerSpikeMax+" and is less than centerSpikeMin = "+centerSpikeMin);
+        if (!error && (areaCenterSpikeMax < areaCenterSpikeMin)) {
+            labelImageIs.setText("ERROR: centerSpikeMax = "+areaCenterSpikeMax+" and is less than centerSpikeMin = "+areaCenterSpikeMin);
             error = true;
         }
-        if (!error && (centerPropMin < centerSpikeMax )) {
-            labelImageIs.setText("ERROR: centerPropMin = "+centerPropMin+" and is less than centerSpikeMax = "+centerSpikeMax);
+        if (!error && (areaCenterPropMin < areaCenterSpikeMax )) {
+            labelImageIs.setText("ERROR: centerPropMin = "+areaCenterPropMin+" and is less than centerSpikeMax = "+areaCenterSpikeMax);
             error = true;
         }
-        if (!error && (centerPropMax < centerPropMin )) {
-            labelImageIs.setText("ERROR: centerPropMax = "+centerPropMax+" and is less than centerPropMin = "+centerPropMin);
+        if (!error && (areaCenterPropMax < areaCenterPropMin )) {
+            labelImageIs.setText("ERROR: centerPropMax = "+areaCenterPropMax+" and is less than centerPropMin = "+areaCenterPropMin);
             error = true;
         }
 
@@ -358,11 +459,11 @@ public class LinkCenterStageProp extends LinkClass {
                     centerIdx = 0;
                 }
                 area = contourAreas.get(leftIdx).intValue();
-                leftIsSpike = ((area >= leftSpikeMin) && (area <= leftSpikeMax));
-                leftIsProp  = ((area >= leftPropMin) && (area <= leftPropMax));
+                leftIsSpike = ((area >= areaLeftSpikeMin) && (area <= areaLeftSpikeMax));
+                leftIsProp  = ((area >= areaLeftPropMin) && (area <= areaLeftPropMax));
                 area = contourAreas.get(centerIdx).intValue();
-                centerIsSpike = ((area >= centerSpikeMin) && (area <= centerSpikeMax));
-                centerIsProp  = ((area >= centerPropMin) && (area <= centerPropMax));
+                centerIsSpike = ((area >= areaCenterSpikeMin) && (area <= areaCenterSpikeMax));
+                centerIsProp  = ((area >= areaCenterPropMin) && (area <= areaCenterPropMax));
 
                 if (leftIsSpike && centerIsSpike) {
                     propIndex = 3;
@@ -423,14 +524,14 @@ public class LinkCenterStageProp extends LinkClass {
             sb.append("    public List<Point> doLinkCenterStageProp");
             if (!reference.equals("")) { sb.append("_"+reference); }
             sb.append("(List<MatOfPoint> contours) {\n");
-            sb.append("        int leftSpikeMin = "+leftSpikeMin+";\n");
-            sb.append("        int leftSpikeMax = "+leftSpikeMax+";\n");
-            sb.append("        int leftPropMin  = "+leftPropMin+";\n");
-            sb.append("        int leftPropMax  = "+leftPropMax+";\n");
-            sb.append("        int centerSpikeMin = "+centerSpikeMin+";\n");
-            sb.append("        int centerSpikeMax = "+centerSpikeMax+";\n");
-            sb.append("        int centerPropMin  = "+centerPropMin+";\n");
-            sb.append("        int centerPropMax  = "+centerPropMax+";\n");
+            sb.append("        int leftSpikeMin = "+Integer.parseInt(areaLeftSpikeMinTF.getText())+";\n");
+            sb.append("        int leftSpikeMax = "+Integer.parseInt(areaLeftSpikeMaxTF.getText())+";\n");
+            sb.append("        int leftPropMin  = "+Integer.parseInt(areaLeftPropMinTF.getText())+";\n");
+            sb.append("        int leftPropMax  = "+Integer.parseInt(areaLeftPropMaxTF.getText())+";\n");
+            sb.append("        int centerSpikeMin = "+Integer.parseInt(areaCenterSpikeMinTF.getText())+";\n");
+            sb.append("        int centerSpikeMax = "+Integer.parseInt(areaCenterSpikeMaxTF.getText())+";\n");
+            sb.append("        int centerPropMin  = "+Integer.parseInt(areaCenterPropMinTF.getText())+";\n");
+            sb.append("        int centerPropMax  = "+Integer.parseInt(areaCenterPropMaxTF.getText())+";\n");
             sb.append("        List<Point>   circleCenters = new ArrayList<>();\n");
             sb.append("        List<Point>   contourAreas = new ArrayList<>();\n");
             sb.append("        for (int i = 0; i < contours.size(); i++) {\n");
