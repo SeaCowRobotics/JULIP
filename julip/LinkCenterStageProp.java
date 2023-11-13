@@ -46,14 +46,14 @@ public class LinkCenterStageProp extends LinkClass {
 
     private JLabel labelImageIs;
        
-    private int leftSpikeMin = 0;
-    private int leftSpikeMax = 1;
-    private int leftPropMin  = 2;
-    private int leftPropMax  = 3;
-    private int centerSpikeMin = 4;
-    private int centerSpikeMax = 5;
-    private int centerPropMin  = 6;
-    private int centerPropMax  = 7;
+    private int leftSpikeMin = 100;
+    private int leftSpikeMax = 400;
+    private int leftPropMin  = 3000;
+    private int leftPropMax  = 9000;
+    private int centerSpikeMin = 100;
+    private int centerSpikeMax = 400;
+    private int centerPropMin  = 3000;
+    private int centerPropMax  = 9000;
     
     private JLabel labelContours;
     
@@ -76,6 +76,7 @@ public class LinkCenterStageProp extends LinkClass {
         //
         anchor = new Point(-1,-1);
         circleCenters = new ArrayList<>();
+        contourAreas = new ArrayList<>();
         codeFilename = "code_LinkCenterStageProp.java";
         //
         //---------------------------------------------
@@ -175,6 +176,7 @@ public class LinkCenterStageProp extends LinkClass {
     public boolean buildContours(String filename) {
     
         boolean status = false;
+        float[] radius = null;
         // loadContours returns null if the file couldn't be parsed
         // else it returns a List<MatOfPoints>
         contours = ContourHandler.loadContours(filename);
@@ -418,11 +420,19 @@ public class LinkCenterStageProp extends LinkClass {
     public String genCodeString(String reference) {
     
             StringBuilder sb = new StringBuilder();
-            sb.append("    public List<Point> doLinkContourStats");
+            sb.append("    public List<Point> doLinkCenterStageProp");
             if (!reference.equals("")) { sb.append("_"+reference); }
             sb.append("(List<MatOfPoint> contours) {\n");
-            
+            sb.append("        int leftSpikeMin = "+leftSpikeMin+";\n");
+            sb.append("        int leftSpikeMax = "+leftSpikeMax+";\n");
+            sb.append("        int leftPropMin  = "+leftPropMin+";\n");
+            sb.append("        int leftPropMax  = "+leftPropMax+";\n");
+            sb.append("        int centerSpikeMin = "+centerSpikeMin+";\n");
+            sb.append("        int centerSpikeMax = "+centerSpikeMax+";\n");
+            sb.append("        int centerPropMin  = "+centerPropMin+";\n");
+            sb.append("        int centerPropMax  = "+centerPropMax+";\n");
             sb.append("        List<Point>   circleCenters = new ArrayList<>();\n");
+            sb.append("        List<Point>   contourAreas = new ArrayList<>();\n");
             sb.append("        for (int i = 0; i < contours.size(); i++) {\n");
             sb.append("            Point center = new Point();\n");
             sb.append("            float[] radius = new float[1];\n");
@@ -434,8 +444,40 @@ public class LinkCenterStageProp extends LinkClass {
             sb.append("                radius     // float[]      - output radius\n");
             sb.append("            );\n");
             sb.append("            circleCenters.add(center);\n");
+            sb.append("            contourAreas.add(Imgproc.contourArea(contour, false));\n");
             sb.append("        }\n");
-            sb.append("        return circleCenters;\n");
+            sb.append("        int leftIdx = -1;\n");
+            sb.append("        int centerIdx = -1;\n");
+            sb.append("        propIndex = 0;\n");
+            sb.append("        boolean leftIsProp = false;\n");
+            sb.append("        boolean leftIsSpike = false;\n");
+            sb.append("        boolean centerIsProp = false;\n");
+            sb.append("        boolean centerIsSpike = false;\n");
+            sb.append("        int area;\n");
+            sb.append("        if (circleCenters.size() != 2) {\n");
+            sb.append("            return propIndex;\n");
+            sb.append("        }\n");            
+            sb.append("        if (circleCenters.get(0).x < circleCenters.get(1).x) {\n");
+            sb.append("            leftIdx = 0;\n");
+            sb.append("            centerIdx = 1;\n");
+            sb.append("        } else {\n");
+            sb.append("            leftIdx = 1;\n");
+            sb.append("            centerIdx = 0;\n");
+            sb.append("        }\n");
+            sb.append("        area = contourAreas.get(leftIdx).intValue();\n");
+            sb.append("        leftIsSpike = ((area >= leftSpikeMin) && (area <= leftSpikeMax));\n");
+            sb.append("        leftIsProp  = ((area >= leftPropMin) && (area <= leftPropMax));\n");
+            sb.append("        area = contourAreas.get(centerIdx).intValue();\n");
+            sb.append("        centerIsSpike = ((area >= centerSpikeMin) && (area <= centerSpikeMax));\n");
+            sb.append("        centerIsProp  = ((area >= centerPropMin) && (area <= centerPropMax));\n");
+            sb.append("        if (leftIsSpike && centerIsSpike) {\n");
+            sb.append("            propIndex = 3;\n");
+            sb.append("        } else if (leftIsProp && centerIsSpike) {\n");
+            sb.append("            propIndex = 1;\n");
+            sb.append("        } else if (leftIsSpike && centerIsProp) {\n");
+            sb.append("            propIndex = 2;\n");
+            sb.append("        }\n");
+            sb.append("        return propIndex;\n");
             sb.append("    }\n");
         return sb.toString();
     }            

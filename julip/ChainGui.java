@@ -36,6 +36,7 @@ public class ChainGui {
     private String[] linkGuis = {      // List of all Link Gui classes available for this app.
                 "LinkInRangeHSV       img>img",
                 "LinkInRangeHHSV      img>img",
+                "LinkCropImage        img>img",
                 "LinkInRangeYCrCb     img>mat",
                 "LinkErodilate        img>img",
                 "LinkExtractChannel   img>img",
@@ -1241,6 +1242,9 @@ public class ChainGui {
                 } 
                 else if (guiName.equals("LinkInRangeHHSV")) {
                     gui = new LinkInRangeHHSV(args);
+                }
+                else if (guiName.equals("LinkCropImage")) {
+                    gui = new LinkCropImage(args);
                 }
                 else if (guiName.equals("LinkInRangeYCrCb")) {
                     gui = new LinkInRangeYCrCb(args);
