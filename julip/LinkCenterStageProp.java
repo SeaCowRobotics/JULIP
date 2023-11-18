@@ -506,7 +506,7 @@ public class LinkCenterStageProp extends LinkClass {
     @Override
     public List<String> genImportList() {
         List<String> importsL = new ArrayList<String>();
-        importsL.add("java.util.Collections");
+        importsL.add("java.util.ArrayList");
         importsL.add("java.util.List");
         importsL.add("org.opencv.core.Core");
         importsL.add("org.opencv.core.CvType");
@@ -521,7 +521,7 @@ public class LinkCenterStageProp extends LinkClass {
     public String genCodeString(String reference) {
     
             StringBuilder sb = new StringBuilder();
-            sb.append("    public List<Point> doLinkCenterStageProp");
+            sb.append("    public int doLinkCenterStageProp");
             if (!reference.equals("")) { sb.append("_"+reference); }
             sb.append("(List<MatOfPoint> contours) {\n");
             sb.append("        int leftSpikeMin = "+Integer.parseInt(areaLeftSpikeMinTF.getText())+";\n");
@@ -533,7 +533,7 @@ public class LinkCenterStageProp extends LinkClass {
             sb.append("        int centerPropMin  = "+Integer.parseInt(areaCenterPropMinTF.getText())+";\n");
             sb.append("        int centerPropMax  = "+Integer.parseInt(areaCenterPropMaxTF.getText())+";\n");
             sb.append("        List<Point>   circleCenters = new ArrayList<>();\n");
-            sb.append("        List<Point>   contourAreas = new ArrayList<>();\n");
+            sb.append("        List<Double>  contourAreas = new ArrayList<>();\n");
             sb.append("        for (int i = 0; i < contours.size(); i++) {\n");
             sb.append("            Point center = new Point();\n");
             sb.append("            float[] radius = new float[1];\n");
@@ -549,7 +549,7 @@ public class LinkCenterStageProp extends LinkClass {
             sb.append("        }\n");
             sb.append("        int leftIdx = -1;\n");
             sb.append("        int centerIdx = -1;\n");
-            sb.append("        propIndex = 0;\n");
+            sb.append("        int propIndex = 0;\n");
             sb.append("        boolean leftIsProp = false;\n");
             sb.append("        boolean leftIsSpike = false;\n");
             sb.append("        boolean centerIsProp = false;\n");

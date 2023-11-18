@@ -560,12 +560,13 @@ public class LinkFilterContours extends LinkClass {
     @Override
     public List<String> genImportList() {
         List<String> importsL = new ArrayList<String>();
+        importsL.add("java.util.ArrayList");
         importsL.add("java.util.List");
         importsL.add("org.opencv.core.Core");
         importsL.add("org.opencv.core.CvType");
         importsL.add("org.opencv.core.Mat");
         importsL.add("org.opencv.core.MatOfPoint");
-        importsL.add("org.opencv.core.MatOfPoint2");
+        importsL.add("org.opencv.core.MatOfPoint2f");
         importsL.add("org.opencv.core.Point");
         importsL.add("org.opencv.core.Scalar");
         importsL.add("org.opencv.imgproc.Imgproc");
@@ -580,7 +581,7 @@ public class LinkFilterContours extends LinkClass {
     
             StringBuilder sb = new StringBuilder();
             sb.append("    public List<MatOfPoint> doLinkFilterContours");
-            if (!reference.equals("")) { sb.append("    _"+reference); }            
+            if (!reference.equals("")) { sb.append("_"+reference); }            
             sb.append("(List<MatOfPoint> contours) {\n");
             
             sb.append("        List<MatOfPoint> filteredContours = new ArrayList<>();\n");

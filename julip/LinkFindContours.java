@@ -332,6 +332,7 @@ public class LinkFindContours extends LinkClass {
     @Override
     public List<String> genImportList() {
         List<String> importsL = new ArrayList<String>();
+        importsL.add("java.util.ArrayList");
         importsL.add("java.util.List");
         importsL.add("org.opencv.core.Mat");
         importsL.add("org.opencv.imgproc.Imgproc");
@@ -365,7 +366,7 @@ public class LinkFindContours extends LinkClass {
             sb.append("            "+MODE_CONST_NAME[modeCB.index]+",    // int - contour retrieval mode\n");
             sb.append("            "+METHOD_CONST_NAME[methodCB.index]+"    // int - contour approximation method\n");
             sb.append("        );\n");
-            sb.append("        return filteredContours;\n");
+            sb.append("        return contours;\n");
             sb.append("    }\n");
         return sb.toString();
     }

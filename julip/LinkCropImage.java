@@ -299,8 +299,8 @@ public class LinkCropImage extends LinkClass {
         importsL.add("org.opencv.core.Core");
         importsL.add("org.opencv.core.CvType");
         importsL.add("org.opencv.core.Mat");
+        importsL.add("org.opencv.core.Rect");
         importsL.add("org.opencv.core.Scalar");
-        importsL.add("org.opencv.imgproc.Imgproc");
         return importsL;
     }     
         
@@ -317,24 +317,24 @@ public class LinkCropImage extends LinkClass {
     
             sb.append("        int mark;\n");
             sb.append("        Scalar blank = new Scalar(0,0,0);\n");
-            sb.append("        matImgDst = Mat.zeros(matImgSrc.rows(), matImgSrc.cols(), CvType.CV_8U);\n");
+            sb.append("        Mat matImgDst = Mat.zeros(matImgSrc.rows(), matImgSrc.cols(), CvType.CV_8U);\n");
             sb.append("        matImgSrc.copyTo(matImgDst);\n");
-            sb.append("        mark = cropLeftTB.value;\n");
+            sb.append("        mark = "+cropLeftTB.value+";\n");
             sb.append("        if (mark > 0) {\n");
             sb.append("            Mat leftMat = matImgDst.submat(new Rect(0,0, mark, matImgSrc.rows()));\n");
             sb.append("            leftMat.setTo(blank);\n");
             sb.append("        }\n");
-            sb.append("        mark = cropRightTB.value;\n");
+            sb.append("        mark = "+cropRightTB.value+";\n");
             sb.append("        if (mark < matImgSrc.cols()) {\n");
             sb.append("            Mat rightMat = matImgDst.submat(new Rect(mark, 0, matImgSrc.cols()-mark-1, matImgSrc.rows()));\n");
             sb.append("            rightMat.setTo(blank);\n");
             sb.append("        }\n");
-            sb.append("        mark = cropTopTB.value;\n");
+            sb.append("        mark = "+cropTopTB.value+";\n");
             sb.append("        if (mark > 0) {\n");
             sb.append("            Mat topMat = matImgDst.submat(new Rect(0, 0, matImgSrc.cols(), mark));\n");
             sb.append("            topMat.setTo(blank);\n");
             sb.append("        }\n");
-            sb.append("        mark = cropBottomTB.value;\n");
+            sb.append("        mark = "+cropBottomTB.value+";\n");
             sb.append("        if (mark < matImgSrc.rows()) {\n");
             sb.append("            Mat bottomMat = matImgDst.submat(new Rect(0, mark, matImgSrc.cols(), matImgSrc.rows()-mark-1));\n");
             sb.append("            bottomMat.setTo(blank);\n");
