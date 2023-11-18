@@ -311,7 +311,7 @@ public class LinkCropImage extends LinkClass {
     public String genCodeString(String reference) {
     
             StringBuilder sb = new StringBuilder();
-            sb.append("    public Mat doLinkInRangeHHSV");
+            sb.append("    public Mat doLinkCropImage");
             if (!reference.equals("")) { sb.append("_"+reference); }
             sb.append("(Mat matImgSrc) {\n");
     
