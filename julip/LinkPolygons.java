@@ -335,12 +335,16 @@ public class LinkPolygons extends LinkClass {
      */
     @Override
     public String genCodeString(String reference) {
-    
-            StringBuilder sb = new StringBuilder();
-            sb.append("    public List<MatOfPoint> doLinkPolygons");
-            if (!reference.equals("")) { sb.append("_"+reference); }
-            sb.append("(List<MatOfPoint> contours) {\n");
+            returnStr = "List<MatOfPoint>";
+            objectStr = "polygonContoursList";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkPolygons");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
 
+            StringBuilder sb = new StringBuilder();
+            sb.append("    public "+returnStr+" "+methodStr.toString());  
+            sb.append("(List<MatOfPoint> contours) {\n");
             sb.append("        List<MatOfPoint> polygonContours = new ArrayList<>();\n");
             sb.append("        MatOfPoint2f curve = new MatOfPoint2f();\n");
             sb.append("        MatOfPoint2f approxCurve = new MatOfPoint2f();\n");

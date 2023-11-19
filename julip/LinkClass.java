@@ -762,6 +762,13 @@ public class LinkClass {
         return null;
     }
 
+    String returnStr;
+    String objectStr;
+    String methodStr;
+    public String getReturnStr() { return returnStr; } // return type that this Link outputs for code export
+    public String getObjectStr() { return objectStr; } // return object String for ChainGui code export
+    public String getMethodStr() { return methodStr; } // return method name this Link outputs for code export
+
     /**
      * genCodeString - To be overridden by subclass; generate method of code.
      */

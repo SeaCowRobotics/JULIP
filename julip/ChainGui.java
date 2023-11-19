@@ -1428,15 +1428,20 @@ public class ChainGui {
      * exportCode - write prototype code from entire chain to file
      */
     public void exportCode() {
-        String linkfilename  = "code_Chain_"+chainLinkTF.getText()+".java";
+        String linkfilename  = "code_Chain_"+refChainTF.getText()+".java";
         List<String> importList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         BufferedWriter writer;
         LinkClass gui;
+        String rtnStr = "";
+        String objStr;
+        String mthStr;
+        String prevObjStr;
         
         try {
             writer = new BufferedWriter(new FileWriter(linkfilename));
 
+            // generate text for import statements from Links
             List<String> importChainList = genImportList();
             if (importChainList.size() > 0) {
                 writer.write("//requires:\n");
@@ -1445,7 +1450,27 @@ public class ChainGui {
             for (int i = 0; i < importChainList.size(); i++) {
                 writer.write("//import "+importChainList.get(i)+";\n");
             }
+
+            // call the Links to retrieve a String of code from each Link
+            // to create a method written out in text
             writer.write(genCodeString());
+
+            objStr = "matImgSrc";
+            sb.append(" doChain_"+refChainTF.getText()+"(Mat matImgSrc) {\n");
+            for (int i = 0; i < guiLinks.size(); i++) {
+                LinkGui thisLinkGui = guiLinks.get(i);
+                gui = thisLinkGui.gui;
+                prevObjStr = objStr;
+                rtnStr = gui.getReturnStr();
+                objStr = gui.getObjectStr();
+                mthStr = gui.getMethodStr();
+                sb.append("        "+rtnStr+" "+objStr+" = "+mthStr+"("+prevObjStr+");\n");
+            }
+            sb.append("        return "+objStr+";\n");
+            sb.append("    }\n");
+            writer.write("    public ");
+            writer.write(rtnStr);
+            writer.write(sb.toString());
             writer.close();
         } catch (IOException e) {}    
     }

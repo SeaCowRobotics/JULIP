@@ -564,14 +564,16 @@ public class LinkGeometryContours extends LinkClass {
      */
     @Override
     public String genCodeString(String reference) {
-        // set minPct, maxPct from Link Gui settings
-        calculatePercentThresholds();
-    
+            returnStr = "List<MatOfPoint>";
+            objectStr = "geometryContoursList";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkGeometryContours");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
+                
             StringBuilder sb = new StringBuilder();
-            sb.append("    public List<MatOfPoint> doGeometryContours");
-            if (!reference.equals("")) { sb.append("_"+reference); }
-            sb.append("(List<MatOfPoint> contours) {\n");
-            
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
+            sb.append("(List<MatOfPoint> contours) {\n");            
             sb.append("        List<MatOfPoin> filteredContours = new ArrayList<>();\n");
             sb.append("        double minPct = "+minPct+";\n");
             sb.append("        double maxPct = "+maxPct+";\n");           

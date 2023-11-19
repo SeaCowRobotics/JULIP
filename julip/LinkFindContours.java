@@ -344,12 +344,16 @@ public class LinkFindContours extends LinkClass {
      */
     @Override
     public String genCodeString(String reference) {
-    
+            returnStr = "List<MatOfPoint>";
+            objectStr = "findContoursList";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkFindContours");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
+                
             StringBuilder sb = new StringBuilder();
-            sb.append("    public List<MatOfPoint> doLinkFindContours");
-            if (!reference.equals("")) { sb.append("_"+reference); }
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
             sb.append("(Mat matImgSrc) {\n");
-            
             sb.append("        Mat gray = new Mat();\n");
             sb.append("        Mat hierarchy = new Mat();\n");
             sb.append("        List<MatOfPoint> contours = new ArrayList<>();\n");

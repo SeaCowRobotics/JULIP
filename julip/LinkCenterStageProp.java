@@ -512,17 +512,22 @@ public class LinkCenterStageProp extends LinkClass {
         importsL.add("org.opencv.core.CvType");
         importsL.add("org.opencv.core.Point");
         return importsL;
-    }     
-    
+    }
+
     /**
      * genCodeString - generate a method that represents this Link's prototype code
      */
     @Override
     public String genCodeString(String reference) {
-    
+            returnStr = "int";
+            objectStr = "centerStageProp";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkCenterStageProp");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
+
             StringBuilder sb = new StringBuilder();
-            sb.append("    public int doLinkCenterStageProp");
-            if (!reference.equals("")) { sb.append("_"+reference); }
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
             sb.append("(List<MatOfPoint> contours) {\n");
             sb.append("        int leftSpikeMin = "+Integer.parseInt(areaLeftSpikeMinTF.getText())+";\n");
             sb.append("        int leftSpikeMax = "+Integer.parseInt(areaLeftSpikeMaxTF.getText())+";\n");

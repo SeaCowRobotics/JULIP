@@ -294,19 +294,23 @@ System.out.println(matImgDst.toString());
         importsL.add("org.opencv.core.Mat");
         return importsL;
     }     
-    
+
     /**
      * genCodeString - generate a method that represents this Link's prototype code
      */
     @Override
     public String genCodeString(String reference) {
-        
+        returnStr = "Mat";
+        objectStr = "channelMat";
+        StringBuilder msb = new StringBuilder();
+        msb.append("doExtractChannel");
+        if (!reference.equals("")) { msb.append("_"+reference); }
+        methodStr = msb.toString();
+            
         StringBuilder sb = new StringBuilder();
         if (channelTB.value < numChannels) {
-            sb.append("    public Mat doExtractChannel");
-            if (!reference.equals("")) { sb.append("_"+reference); }
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
             sb.append("(Mat matImgSrc) {\n");
-
             sb.append("        // Initialize output Mat to all zeros; and to same Size as input Mat\n");
             sb.append("        Mat matImgDst = Mat.zeros(\n");
             sb.append("            matImgSrc.rows(), // int - number of rows\n");

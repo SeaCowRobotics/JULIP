@@ -578,12 +578,16 @@ public class LinkFilterContours extends LinkClass {
      */
     @Override
     public String genCodeString(String reference) {
-    
-            StringBuilder sb = new StringBuilder();
-            sb.append("    public List<MatOfPoint> doLinkFilterContours");
-            if (!reference.equals("")) { sb.append("_"+reference); }            
-            sb.append("(List<MatOfPoint> contours) {\n");
+            returnStr = "List<MatOfPoint>";
+            objectStr = "filterContoursList";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkFilterContours");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
             
+            StringBuilder sb = new StringBuilder();
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
+            sb.append("(List<MatOfPoint> contours) {\n");            
             sb.append("        List<MatOfPoint> filteredContours = new ArrayList<>();\n");
             sb.append("        double area;\n");
             sb.append("        double perimeter;\n");

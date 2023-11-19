@@ -479,18 +479,22 @@ public class LinkContourStats extends LinkClass {
         importsL.add("org.opencv.imgproc.Imgproc");
         return importsL;
     }     
-    
+
     /**
      * genCodeString - generate a method that represents this Link's prototype code
      */
     @Override
     public String genCodeString(String reference) {
-    
+            returnStr = "List<Point>";
+            objectStr = "contourStatsPoints";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkContourStats");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
+
             StringBuilder sb = new StringBuilder();
-            sb.append("    public List<Point> doLinkContourStats");
-            if (!reference.equals("")) { sb.append("_"+reference); }
-            sb.append("(List<MatOfPoint> contours) {\n");
-            
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
+            sb.append("(List<MatOfPoint> contours) {\n");            
             sb.append("        List<Point>   circleCenters = new ArrayList<>();\n");
             sb.append("        for (int i = 0; i < contours.size(); i++) {\n");
             sb.append("            Point center = new Point();\n");

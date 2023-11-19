@@ -376,12 +376,16 @@ public class LinkInRangeYCrCb extends LinkClass {
      */
     @Override
     public String genCodeString(String reference) {
+            returnStr = "Mat";
+            objectStr = "inRangeYCrCbMat";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkInRangeYCrCb");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
     
             StringBuilder sb = new StringBuilder();
-            sb.append("    public Mat doLinkInRangeYCrCb");
-            if (!reference.equals("")) { sb.append("_"+reference); }
-             sb.append("(Mat matImgSrc) {\n");
-            
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
+            sb.append("(Mat matImgSrc) {\n");            
             sb.append("        Mat src = new Mat();\n");
             sb.append("        Mat msk = new Mat();\n");
             sb.append("        // Initialize output Mat to all zeros; and to same Size as input Mat\n");

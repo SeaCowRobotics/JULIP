@@ -303,18 +303,22 @@ public class LinkCropImage extends LinkClass {
         importsL.add("org.opencv.core.Scalar");
         return importsL;
     }     
-        
+     
     /**
      * genCodeString - generate a method that represents this Link's prototype code
      */
     @Override
     public String genCodeString(String reference) {
+            returnStr = "Mat";
+            objectStr = "cropImageMat";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkCropImage");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
     
             StringBuilder sb = new StringBuilder();
-            sb.append("    public Mat doLinkCropImage");
-            if (!reference.equals("")) { sb.append("_"+reference); }
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
             sb.append("(Mat matImgSrc) {\n");
-    
             sb.append("        int mark;\n");
             sb.append("        Scalar blank = new Scalar(0,0,0);\n");
             sb.append("        Mat matImgDst = Mat.zeros(matImgSrc.rows(), matImgSrc.cols(), CvType.CV_8U);\n");

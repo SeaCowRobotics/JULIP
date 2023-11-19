@@ -430,18 +430,22 @@ public class LinkInRangeHHSV extends LinkClass {
         importsL.add("org.opencv.imgproc.Imgproc");
         return importsL;
     }     
-        
-    /**
+
+   /**
      * genCodeString - generate a method that represents this Link's prototype code
      */
     @Override
     public String genCodeString(String reference) {
+            returnStr = "Mat";
+            objectStr = "inRangeHHSVMat";
+            StringBuilder msb = new StringBuilder();
+            msb.append("doLinkInRangeHHSV");
+            if (!reference.equals("")) { msb.append("_"+reference); }
+            methodStr = msb.toString();
     
             StringBuilder sb = new StringBuilder();
-            sb.append("    public Mat doLinkInRangeHHSV");
-            if (!reference.equals("")) { sb.append("_"+reference); }
-            sb.append("(Mat matImgSrc) {\n");
-            
+            sb.append("    public "+returnStr+" "+methodStr.toString()); 
+            sb.append("(Mat matImgSrc) {\n");            
             sb.append("        Mat src = new Mat();\n");
             sb.append("        Mat msk = new Mat();\n");
             sb.append("        Mat msk2 = new Mat();\n");
