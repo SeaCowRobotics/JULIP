@@ -357,11 +357,11 @@ public class LinkFindContours extends LinkClass {
             sb.append("        Mat gray = new Mat();\n");
             sb.append("        Mat hierarchy = new Mat();\n");
             sb.append("        List<MatOfPoint> contours = new ArrayList<>();\n");
-            sb.append("        // Convert source Mat in BGR color space to Gray color space\n");
+            sb.append("        // Convert source Mat in RGB color space to Gray color space\n");
             sb.append("        Imgproc.cvtColor(\n");
             sb.append("            matImgSrc,              // Mat - source\n");
             sb.append("            gray,                   // Mat - destination\n");
-            sb.append("            Imgproc.COLOR_BGR2GRAY  // int - code space conversion code\n");
+            sb.append("            Imgproc.COLOR_RGB2GRAY  // int - code space conversion code\n");
             sb.append("        );\n");
             sb.append("        Imgproc.findContours(\n");
             sb.append("            gray,         // Mat - input image\n");

@@ -414,13 +414,13 @@ public class LinkInRangeHSV extends LinkClass {
             sb.append("            matImgSrc.cols(), // int - number of columns\n");
             sb.append("            CvType.CV_8U      // int - Mat data type\n");
             sb.append("        );\n");
-            sb.append("        // If the source image was a file then the Mat is BGR (as this code assumes)\n");
-            sb.append("        // BUT if the source image was a camera then the Mat is likely RGB, so instead use COLOR_RGB2HSV\n");
-            sb.append("        // Convert source Mat in BGR color space to HSV color space\n");
+            sb.append("        // If the source image was a camera then the Mat is RGB\n");
+            sb.append("        // BUT if the source image was a file then the Mat is BGR\n");
+            sb.append("        // Convert source Mat in RGB color space to HSV color space\n");
             sb.append("        Imgproc.cvtColor(\n");
             sb.append("            matImgSrc,             // Mat - source\n");
             sb.append("            src,                   // Mat - destination\n");
-            sb.append("            Imgproc.COLOR_BGR2HSV  // int - code space conversion code\n");
+            sb.append("            Imgproc.COLOR_RGB2HSV  // int - code space conversion code\n");
             sb.append("        );\n");
             sb.append("        // Create masking Mat msk of all pixels within Scalar boundaries\n");
             sb.append("        Scalar lowerb = new Scalar ("+hueMinTB.value+", "+satMinTB.value+", "+valMinTB.value+");\n");
