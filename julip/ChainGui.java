@@ -36,15 +36,16 @@ public class ChainGui {
     private String[] linkGuis = {      // List of all Link Gui classes available for this app.
                 "LinkInRangeHSV       img>img",
                 "LinkInRangeHHSV      img>img",
-                "LinkCropImage        img>img",
                 "LinkInRangeYCrCb     img>mat",
+                "LinkCropImage        img>img",
                 "LinkErodilate        img>img",
                 "LinkExtractChannel   img>img",
                 "LinkFindContours     img>ctr",
                 "LinkFilterContours   ctr>ctr",
                 "LinkGeometryContours ctr>ctr",
-                "LinkPolygons         ctr>ctr",                
                 "LinkContourStats     ctr>pts",
+                "LinkPolygons         ctr>ctr",
+                "LinkViewer           img>nil",
                 "JoinRelicJewel       ctr>nil",
                 "LinkRelicPictograph  pts>nil",
                 "LinkRoverMineral     ctr>nil",
@@ -1269,6 +1270,9 @@ public class ChainGui {
                 }                
                 else if (guiName.equals("LinkContourStats")) {
                     gui = new LinkContourStats(args);
+                }
+                else if (guiName.equals("LinkViewer")) {
+                    gui = new LinkViewer(args);
                 }
                 else if (guiName.equals("LinkRelicPictograph")) {
                     gui = new LinkRelicPictograph(args);

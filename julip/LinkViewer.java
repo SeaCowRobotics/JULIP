@@ -23,7 +23,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 /**
- * LinkErodilate - Graphical user interface to view pixel values.
+ * LinkViewer - Graphical user interface to view pixel values.
  */
 public class LinkViewer extends LinkClass {
 
@@ -32,10 +32,10 @@ public class LinkViewer extends LinkClass {
     // All fields are either final or not initialized.
     //
     private final String[] COLORSPACE_STR = { 
-        "Color Space: BGR", 
-        "Color Space: HSV",
-        "Color Space: YCrCb",
-        "Color Space: Gray"
+        "Color_Space:BGR",
+        "Color_Space:HSV",
+        "Color_Space:YCrCb",
+        "Color_Space:Gray"
     };
        
     private JLabel[][] pixelValueLabels;
@@ -284,7 +284,7 @@ public class LinkViewer extends LinkClass {
             writer.write("LINK_FILE\t"       + linkfilename + "\n");
             writer.write("XPIXEL\t"          + xpixelTB.value + "\n");
             writer.write("YPIXEL\t"          + ypixelTB.value + "\n");
-            writer.write("COLOR_SPACE_TYPE\t"+ COLORSPACE_STR[colorSpaceCB.index] + "\n");
+            writer.write("COLORSPACE_TYPE\t"+ COLORSPACE_STR[colorSpaceCB.index] + "\n");
             writer.close();
         } catch (IOException e) {}
     }
@@ -294,7 +294,9 @@ public class LinkViewer extends LinkClass {
      */
     @Override
     public void saveImage() {
-        Imgcodecs.imwrite(textFieldImageOut.getText(), matImgDst);
+        // LinkViewer doesn't have an output image to save,
+        // this Link is an end-of-chain for diagnostic viewing.
+        //Imgcodecs.imwrite(textFieldImageOut.getText(), matImgDst);
     }
     
     /**
@@ -390,7 +392,11 @@ public class LinkViewer extends LinkClass {
                 }
                 else { 
                     matPixel.get(y, x, pixel);
-                    pixelValueLabels[ix][iy].setText(Integer.toString((int)(pixel[0]&0xff))+","+Integer.toString((int)(pixel[1]&0xff))+","+Integer.toString((int)(pixel[2]&0xff)));
+                    String textStr = String.format("%3s,%3s,%3s",
+                            Integer.toString((int)(pixel[0]&0xff)),
+                            Integer.toString((int)(pixel[1]&0xff)),
+                            Integer.toString((int)(pixel[2]&0xff)));
+                    pixelValueLabels[ix][iy].setText(textStr);
                 }
             }
         }

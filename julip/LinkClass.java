@@ -291,6 +291,8 @@ public class LinkClass {
     
     /**
      * readLinkFile - read and parse the key-values of a JULIP link file
+     *   purpose of this method is to build the Map<String, String> myLinkMap which holds
+     *   the setting values set by the user for the Link: sliders, comboboxes, textfields, etc.
      * @param linkfilename - name of JULIP link file to read
      * @return boolean     - true if file is readable and correct format, else false
      */
